@@ -1,0 +1,4 @@
+/mnt/hgfs/source-pro/C-Project/C-Project/client/CMakeFiles/rebuild_cache.dir
+/mnt/hgfs/source-pro/C-Project/C-Project/client/CMakeFiles/client_app.dir
+/mnt/hgfs/source-pro/C-Project/C-Project/client/CMakeFiles/edit_cache.dir
+/mnt/hgfs/source-pro/C-Project/C-Project/client/CMakeFiles/client_app_autogen.dir
