@@ -248,6 +248,30 @@ int capture_get_newframe(unsigned char *data, int size, int *len)
 	return 0;
 }
 
+// 必须与capture_put_framebuf()成对调用
+int capture_get_framebuf(unsigned char **buf_ptr, int *len)
+{
+	struct v4l2cap_info *capture = &capture_info;
+	
+	if(!capture->run)
+		return -1;
+
+	if(newframe_len <= 0)
+		return -1;
+
+	pthread_mutex_lock(&newframe_mut);
+
+	*buf_ptr = newframe_buf;
+	*len = newframe_len;
+
+	return 0;
+}
+
+void capture_put_framebuf(void)
+{
+	pthread_mutex_unlock(&newframe_mut);
+}
+
 int v4l2cap_clear_newframe(void)
 {
 	pthread_mutex_lock(&newframe_mut);

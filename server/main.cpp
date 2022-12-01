@@ -31,7 +31,7 @@ int main(int argc, char* argv[])
 	sleep(1);	// only to show background image
 	start_capture_task();
 
-	// 启动车牌识别任务
+	// 鍚姩杞︾墝璇嗗埆浠诲姟
 	start_car_recogn_task();
 
 	return qtApp.exec();		// start qt application, message loop ...

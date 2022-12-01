@@ -15,7 +15,10 @@ class car_license_recogn
 public:
 	car_license_recogn(void);
 	//~car_license_recogn(void);
-	
+	int car_recogn_init(void);
+	int car_plate_detect(Mat& image);
+	int car_plate_recogn(void);
+
 public:
 	Mat plate_mat;
 };

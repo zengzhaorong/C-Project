@@ -39,13 +39,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 	videoArea->setGeometry(0, 0, 640, 480);
 	videoArea->show();
 
-	buf_size = FRAME_BUF_SIZE;
-	video_buf = (unsigned char *)malloc(buf_size);
-	if(video_buf == NULL)
-	{
-		buf_size = 0;
-		printf("ERROR: malloc for video_buf failed!");
-	}
+	carPlateArea = new QLabel(mainWindow);
+	carPlateArea->setGeometry(640, 0, 160, 80);
+	carPlateArea->show();
 
 	/* set timer to show image */
 	timer = new QTimer(this);
@@ -61,21 +57,33 @@ MainWindow::~MainWindow(void)
 
 void MainWindow::window_display(void)
 {
+	unsigned char *frame_buf = NULL;
+	int frame_len = 0;
 	int len = 0;
 	int ret;
 
+	timer->stop();
+
 	/* show capture image */
-	ret = capture_get_newframe(video_buf, buf_size, &len);
+	ret = capture_get_framebuf(&frame_buf, &frame_len);
 	if(ret == 0)
 	{
 		QImage videoQImage;
 
-		videoQImage = jpeg_to_QImage(video_buf, len);
+		videoQImage = jpeg_to_QImage(frame_buf, frame_len);
+		capture_put_framebuf();
 
 		videoArea->setPixmap(QPixmap::fromImage(videoQImage));
 		videoArea->show();
+
+		if(!plateImg.isNull())
+		{
+			carPlateArea->setPixmap(QPixmap::fromImage(plateImg));
+			carPlateArea->show();
+		}
 	}
 
+	timer->start(TIMER_INTERV_MS);
 
 }
 
@@ -89,6 +97,13 @@ int mainwindow_init(void)
 	return 0;
 }
 
+int mainwin_set_plateImg(QImage &plateImg)
+{
+
+	mainwindow->plateImg = plateImg;
+
+	return 0;
+}
 
 /* notice:
  * use timer to display,

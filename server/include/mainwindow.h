@@ -44,19 +44,19 @@ private slots:
 	void window_display(void);
 	
 public:
+	QImage			plateImg;			// car plate image
 
 private:
 	QWidget			*mainWindow;		// main window
 	QLabel 			*videoArea;			// video area
+	QLabel 			*carPlateArea;		// car plate
 	QImage			backgroundImg;		// background image
 	QTimer 			*timer;				// display timer
 	
-public:
-	unsigned char 	*video_buf;
-	unsigned int 	buf_size;
 };
 
 
+int mainwin_set_plateImg(QImage &plateImg);
 int start_mainwindow_task(void);
 
 
